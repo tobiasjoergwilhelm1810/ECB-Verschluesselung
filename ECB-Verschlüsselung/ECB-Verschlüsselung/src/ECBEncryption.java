@@ -6,9 +6,9 @@ import java.util.Scanner;
  * 
  * ECB Verschluesselung
  * 
- * KLASSE: 11IT  ____   B
+ * KLASSE: 11IT1B
  * 
- * @author IHRE NAMEN
+ * @author Covasala, Daniela-Gabriela & Wilhelm, Tobias Jörg
  */
 public class ECBEncryption {
 
