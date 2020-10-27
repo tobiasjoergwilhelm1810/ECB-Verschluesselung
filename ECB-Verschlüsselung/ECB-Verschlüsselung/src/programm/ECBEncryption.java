@@ -3,7 +3,6 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import exception.ProgrammInterruptException;
-import exception.WrongInputException;
 
 /**
  * Quellcodevorlage fuer das Projekt
@@ -190,7 +189,6 @@ public class ECBEncryption {
      * Hier wird das Char-Array bits in Blöcke unterteilt mit der größe size.
      * Diese werden dann in ein 2 Dimensionales Array gespeichert.
      * 
-     * @throws WrongInputException
      * @throws ProgrammInterruptException 
      * 
      * @param bits
@@ -198,17 +196,9 @@ public class ECBEncryption {
      * @return char[][]
      * 
      */
-    public static char[][] bitsToBlocks(char[] bits, int size) throws WrongInputException, ProgrammInterruptException {
+    public static char[][] bitsToBlocks(char[] bits, int size) throws ProgrammInterruptException {
     	
-    	char [][] blocks = null; //Erstelleung der Variablen ohne Zuweisung
-    	
-    	try {
-    		
-    		blocks = new char [bits.length/size][size]; //Erstellung des char-Arrays
-    		
-    	} catch (Exception e){
-    		throw new WrongInputException(bits.length, size);
-    	}
+    	char [][] blocks = new char [bits.length/size][size]; //Erstellung des char-Arrays
     	
     	int count = 0; //Erstellung eines Counts
     	int next = 0; //Erstellung eines Next
@@ -413,6 +403,7 @@ public class ECBEncryption {
         
     	char [] bits = null;
     	char[][] blocks = null;
+    	
 		try {
 			bits = textToBits(text); //Aufruf der Methode terxtToBits()
 			blocks = bitsToBlocks(bits, blockSize);
@@ -420,12 +411,7 @@ public class ECBEncryption {
 	    	bits = blocksToBits(blocks); //Aufruf der Methode blocksToBits
 	    	bits = bitsToText(bits, symbolLenght()); //Aufruf der Methode bitsToBlocks()
 	    	text = charToString(bits); //Aufruf der Methode charToString();
-		} catch (WrongInputException e) {
-			// TODO Auto-generated catch block
-			text = e.getErrorMessage();
-		} //Aufruf der Methode bitsToBlocks()
-		catch (ProgrammInterruptException e) {
-			// TODO Auto-generated catch block
+		} catch (ProgrammInterruptException e) {
 			text = e.getErrorMessage();
 		}
     	
@@ -437,8 +423,26 @@ public class ECBEncryption {
     // Entschluesselung von Bloecken
     //
 
+    /**
+     * 
+     * Diese Methode gibt jeden Block in die Methode "shiftRight()" und gibt anschließend diesen Wieder zurück
+     * 
+     * @param blocks
+     * @return char[]
+     */
     public static char[][] decryptBlocks(char[][] blocks) {
-        return null;
+    	
+    	/*
+    	 * 
+    	 * Diese for-Schleife geht durch jeden Block durch
+    	 * 
+    	 */
+    	for(int i = 0; i < blocks.length; i++) {
+    		
+    		blocks[i] = shiftLeft(blocks[i]); //Übergibt den Block an die Methode "shiftRight()"
+    		
+    	}
+        return blocks; //Gibt die Blöcke wieder zurück
     }
 
     //
@@ -446,7 +450,23 @@ public class ECBEncryption {
     //
 
     public static String decryption(String text, int blockSize) {
-        return null;
+    	
+    	char [] bits = null;
+    	char[][] blocks = null;
+    	
+		try {
+			bits = textToBits(text); //Aufruf der Methode terxtToBits()
+			blocks = bitsToBlocks(bits, blockSize);
+			blocks = decryptBlocks(blocks); //Aufruf der Methode encryptBlocks()
+	    	bits = blocksToBits(blocks); //Aufruf der Methode blocksToBits
+	    	bits = bitsToText(bits, symbolLenght()); //Aufruf der Methode bitsToBlocks()
+	    	text = charToString(bits); //Aufruf der Methode charToString();
+		} catch (ProgrammInterruptException e) {
+			text = e.getErrorMessage();
+		}
+    	
+    	
+    	return text;
     }
     
     /**

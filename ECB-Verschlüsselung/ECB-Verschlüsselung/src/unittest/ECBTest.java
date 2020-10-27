@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import exception.ProgrammInterruptException;
-import exception.WrongInputException;
 import programm.ECBEncryption;
 
 @DisplayName("ECB-Code-Tests-Modul")
@@ -80,7 +79,7 @@ public class ECBTest {
 
     @Test
     @DisplayName("Test der Methode bitsToBlocks")
-    void bitsToBlocksTest() throws WrongInputException, ProgrammInterruptException {
+    void bitsToBlocksTest() throws ProgrammInterruptException {
         
         char[][] a1 = ECBEncryption.bitsToBlocks(new char[] { '1', '1', '0', '1', '1', '0', '0', '1', '0' }, 3);
         char[][] e1 = { { '1', '1', '0' }, { '1', '1', '0' }, { '0', '1', '0' } };
