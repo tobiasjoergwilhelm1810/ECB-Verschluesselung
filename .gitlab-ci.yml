@@ -1,0 +1,26 @@
+---
+stages:
+    - test
+    - deploy
+    - cleanup
+
+1-TEST-YAML:
+    stage: test
+    image:
+        name: cytopia/yamllint
+        entrypoint: ["/bin/ash", "-c"]
+    tags:
+        - run_docker
+    script:
+        - yamllint --version
+        - yamllint -f colored .
+
+2-JUNIT-TEST:
+    stage: test
+    image:
+        name: maven:3.6.3-jdk-11
+    tags:
+        - run_docker
+    script:
+        - cd ECB-Verschluesselung
+        - mvn test
